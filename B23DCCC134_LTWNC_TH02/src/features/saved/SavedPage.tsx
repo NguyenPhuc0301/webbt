@@ -1,0 +1,6 @@
+import { useMemo } from 'react';
+import { EXERCISES } from '../../data/exercises';
+import { useSavedStore } from './useSavedStore';
+import { useSessionStore } from '../session/useSessionStore';
+import { formatDuration } from '../../utils/format';
+export default function SavedPage() { const ids = useSavedStore((s) => s.ids); const toggle = useSavedStore((s) => s.toggle); const saved = useMemo(() => EXERCISES.filter((e) => ids.includes(e.id)), [ids]); return <section><div className="page-heading"><div><p className="eyebrow">DANH SÁCH CỦA BẠN</p><h1>Bài tập đã lưu</h1><p>Các bài tập bạn muốn quay lại luyện tập.</p></div>{saved.length > 0 && <button className="primary" onClick={() => useSessionStore.getState().startSession(saved, 0)}>Tập tất cả</button>}</div>{saved.length ? <div className="saved-list">{saved.map((e) => <div className="saved-item" key={e.id}><div><strong>{e.name}</strong><small>HLV {e.trainer} · {e.group}</small></div><span>{formatDuration(e.duration)}</span><button aria-label="Bỏ lưu bài tập" onClick={() => toggle(e.id)}>Bỏ lưu</button><button onClick={() => useSessionStore.getState().startSession(saved, saved.findIndex((x) => x.id === e.id))}>Bắt đầu</button></div>)}</div> : <div className="empty-state">Bạn chưa lưu bài tập nào.</div>}</section>; }

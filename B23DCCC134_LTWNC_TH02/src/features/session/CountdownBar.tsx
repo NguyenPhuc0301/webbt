@@ -1,0 +1,3 @@
+import { useSessionStore } from './useSessionStore';
+import { formatDuration } from '../../utils/format';
+export default function CountdownBar() { const elapsed = useSessionStore((s) => s.elapsed); const queue = useSessionStore((s) => s.queue); const index = useSessionStore((s) => s.currentIndex); const current = queue[index]; if (!current) return <div className="countdown"><span>Còn lại: 0:00</span><div className="progress"><i style={{ width: '0%' }} /></div></div>; const remaining = Math.max(0, current.duration - elapsed); const percent = Math.min(100, elapsed / current.duration * 100); return <div className="countdown"><span>Còn lại: {formatDuration(remaining)}</span><div className="progress"><i style={{ width: `${percent}%` }} /></div></div>; }

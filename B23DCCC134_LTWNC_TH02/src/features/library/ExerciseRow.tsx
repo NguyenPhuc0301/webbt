@@ -1,0 +1,6 @@
+import { memo } from 'react';
+import type { Exercise } from '../../types';
+import { formatDuration } from '../../utils/format';
+interface Props { exercise: Exercise; number: number; saved: boolean; canAddRoutine: boolean; onStart: (exercise: Exercise) => void; onToggleSaved: (id: string) => void; onAddSession: (exercise: Exercise) => void; onAddRoutine: (exercise: Exercise) => void; }
+function ExerciseRow({ exercise, number, saved, canAddRoutine, onStart, onToggleSaved, onAddSession, onAddRoutine }: Props) { return <div className="exercise-row"><span className="row-number">{number}</span><div className="exercise-main"><strong>{exercise.name}</strong><small>HLV {exercise.trainer} · {exercise.group}</small></div><span className="duration">{formatDuration(exercise.duration)}</span><div className="row-actions"><button onClick={() => onStart(exercise)}>Bắt đầu</button><button aria-label={saved ? 'Bỏ lưu bài tập' : 'Lưu bài tập'} onClick={() => onToggleSaved(exercise.id)}>{saved ? '★' : '☆'}</button><button onClick={() => onAddSession(exercise)}>+ Buổi tập</button><button disabled={!canAddRoutine} onClick={() => onAddRoutine(exercise)}>+ Giáo án</button></div></div>; }
+export default memo(ExerciseRow);
